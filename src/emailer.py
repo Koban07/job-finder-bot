@@ -15,20 +15,26 @@ def build_message(jobs: list[dict], sender: str, to: str) -> EmailMessage:
     html = ["<h2>Suas vagas de hoje</h2>"]
     for job in jobs:
         pct = round(job["score"] * 100)
+        source = job.get("source", "Remotive")
         plain.append(
             f"{job['title']}\n"
             f"{job['company']} - {job['location']}\n"
             f"Compatibilidade: {pct}%\n"
+            f"Fonte: {source}\n"
             f"{job['url']}\n"
         )
         html.append(
             f"<p><b>{escape(job['title'])}</b><br>"
             f"{escape(job['company'])} - {escape(job['location'])}<br>"
-            f"Compatibilidade: {pct}%<br>"
+            f"Compatibilidade: {pct}% | Fonte: {escape(source)}<br>"
             f'<a href="{escape(job["url"])}">Ver vaga</a></p>'
         )
-    plain.append("Fonte das vagas: Remotive (remotive.com)")
-    html.append("<p><small>Fonte das vagas: Remotive (remotive.com)</small></p>")
+    footer = (
+        "Vagas obtidas via Remotive (remotive.com), Adzuna (adzuna.com.br) "
+        "e comunidades de vagas do GitHub."
+    )
+    plain.append(footer)
+    html.append(f"<p><small>{footer}</small></p>")
 
     msg.set_content("\n".join(plain))
     msg.add_alternative("".join(html), subtype="html")

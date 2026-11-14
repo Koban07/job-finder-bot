@@ -54,7 +54,8 @@ def run(dry_run: bool = False) -> int:
     if dry_run:
         for j in best:
             pct = round(j["score"] * 100)
-            print(f"{pct}% | {j['title']} | {j['company']} | {j['url']}")
+            src = j.get("source", "")
+            print(f"{pct}% | {j['title']} | {j['company']} | {src} | {j['url']}")
         return 0
 
     send_email(build_message(best, EMAIL_FROM, EMAIL_TO))

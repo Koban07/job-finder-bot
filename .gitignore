@@ -218,3 +218,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Dados pessoais e arquivos locais do projeto
+data/
+logs/
+*.db
+*.pdf
